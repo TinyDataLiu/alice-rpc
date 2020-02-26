@@ -11,6 +11,9 @@
         <module>rpc-v1-service</module>
         <module>rpc-v1-api</module>
         <module>rpc-v1-client</module>
+        <module>rpc-spring-api</module>
+        <module>rpc-spring-client</module>
+        <module>rpc-spring-server</module>
     </modules>
 
     <packaging>pom</packaging>
