@@ -11,4 +11,11 @@
     <artifactId>rpc-v1-client</artifactId>
     <name>rpc-v1-client</name>
     <description>客户端，通过api 层调用远程服务。</description>
+    <dependencies>
+        <dependency>
+            <artifactId>rpc-v1-api</artifactId>
+            <groupId>com.alice.rpc</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -11,4 +11,11 @@
     <artifactId>rpc-v1-service</artifactId>
     <name>rpc-v1-service</name>
     <description>对外发布服务提供远程调用</description>
+    <dependencies>
+        <dependency>
+            <artifactId>rpc-v1-api</artifactId>
+            <groupId>com.alice.rpc</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
