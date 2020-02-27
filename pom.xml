@@ -14,9 +14,7 @@
         <module>rpc-spring-api</module>
         <module>rpc-spring-client</module>
         <module>rpc-spring-server</module>
-        <module>netty-rpc-api</module>
-        <module>netty-rpc-server</module>
-        <module>netty-rpc-client</module>
+        <module>rpc-netty</module>
     </modules>
 
     <packaging>pom</packaging>
