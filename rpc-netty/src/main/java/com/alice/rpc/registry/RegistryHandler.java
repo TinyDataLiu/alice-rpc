@@ -63,14 +63,15 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("channelRead");
+        Object result = new Object();
         //获取请求实体
         Protocol request = (Protocol) msg;
         //当客户端建立连接时，需要从自定义协议中获取信息，拿到具体的服务和实参
         if (cacheMap.containsKey(request.getClassName())) {
             Object clazz = cacheMap.get(request.getClassName());
             Method method = clazz.getClass().getMethod(request.getMethodName(), request.getTypes());
-            ctx.write(method.invoke(clazz, request.getArgs()));
+            result = method.invoke(clazz, request.getArgs());
+            ctx.write(result);
         } else {
             ctx.write("service not found");
         }
@@ -78,12 +79,6 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("channelReadComplete");
-        ctx.write("1231231232");
-
-    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

@@ -9,7 +9,7 @@ import com.alice.rpc.api.IUser;
 public class UserImpl implements IUser {
     @Override
     public String addUser(String name, Integer age) {
-        System.out.println(String.format("name=%s,age=%1", name, age));
+        System.out.println(String.format("name=%s,age=%s", name, age));
         return name + "--->" + age;
     }
 }
