@@ -59,21 +59,26 @@ public class MethodProxy implements InvocationHandler {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
-            bootstrap.group(group)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.TCP_NODELAY, Boolean.TRUE)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel channel) throws Exception {
-                            channel.pipeline()
-                                    .addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4))
-                                    .addLast("frameEncoder", new LengthFieldPrepender(4))
-                                    .addLast("encoder", new ObjectEncoder())
-                                    .addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
-                                    .addLast("handler", proxyHandler);
-                        }
-                    });
+            bootstrap.group(group);
+            bootstrap.channel(NioSocketChannel.class);
+            bootstrap.option(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel channel) throws Exception {
+                    channel.pipeline()
+                            .addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4))
+                            .addLast("frameEncoder", new LengthFieldPrepender(4))
+                            .addLast("encoder", new ObjectEncoder())
+                            .addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
+                            .addLast("handler", proxyHandler);
+                }
+            });
+            
             ChannelFuture future = bootstrap.connect("localhost", 8080).sync();
+            // 请求写出
+            future.channel().writeAndFlush(protocol).sync();
+            // 关闭
+            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
