@@ -13,6 +13,12 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**
  * 完成服务注册
+ * <p>
+ * 这部分是比较核心的代码， 主要逻辑就是通过netty 将服务暴露出去。主要做了三件事
+ * <p>
+ * 1. 暴露一个服务地址ip + 端口
+ * 2. 将我们写好的api 实现注册，这里使用一个Map存储。
+ * 3. 解析远程调用的参数，并通过反射调用本地服务，并返回结果
  *
  * @author liuchun
  * @date 2020/02/27  13:08
