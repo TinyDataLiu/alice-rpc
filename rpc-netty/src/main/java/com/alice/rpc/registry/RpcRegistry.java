@@ -21,6 +21,9 @@ public class RpcRegistry {
 
     private int port;
 
+    public RpcRegistry(int port) {
+        this.port = port;
+    }
 
     public void start() {
         EventLoopGroup boosGroup = new NioEventLoopGroup();
@@ -57,6 +60,7 @@ public class RpcRegistry {
                     .childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE);
             ChannelFuture future = server.bind(port).sync();
             System.out.println("RPC Registry start listen at " + port);
+            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             boosGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
